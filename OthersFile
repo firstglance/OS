@@ -1,3 +1,168 @@
+https://fossies.org/dox/glibc-2.29/struct____dirstream.html
+__dirstream Struct Reference
+__dirstream Struct Reference
+#include <dirstream.h>
+
+Public Member Functions
+ 	__libc_lock_define (, lock) size_t allocation
+ 
+char data [0] 	__attribute__ ((aligned(__alignof__(long double))))
+ 
+Data Fields
+void * 	__fd
+ 
+char * 	__data
+ 
+int 	__entry_data
+ 
+char * 	__ptr
+ 
+int 	__entry_ptr
+ 
+size_t 	__allocation
+ 
+size_t 	__size
+ 
+int 	fd
+ 
+size_t 	size
+ 
+size_t 	offset
+ 
+off_t 	filepos
+ 
+int 	errcode
+ 
+Detailed Description
+Definition at line 29 of file dirstream.h.
+
+Member Function Documentation
+◆ __attribute__()
+char data [0] __dirstream::__attribute__	(	(aligned(__alignof__(long double))) 		)	
+◆ __libc_lock_define()
+__dirstream::__libc_lock_define	(	lock 		)	
+Field Documentation
+◆ __allocation
+size_t __dirstream::__allocation
+Definition at line 36 of file dirstream.h.
+
+Referenced by __closedir(), __readdir64(), __readdir64_r(), and _hurd_fd_opendir().
+
+◆ __data
+char* __dirstream::__data
+Definition at line 32 of file dirstream.h.
+
+Referenced by __closedir(), __readdir64(), __readdir64_r(), and _hurd_fd_opendir().
+
+◆ __entry_data
+int __dirstream::__entry_data
+Definition at line 33 of file dirstream.h.
+
+Referenced by __readdir64(), __readdir64_r(), and _hurd_fd_opendir().
+
+◆ __entry_ptr
+int __dirstream::__entry_ptr
+Definition at line 35 of file dirstream.h.
+
+Referenced by __readdir64(), __readdir64_r(), __seekdir(), _hurd_fd_opendir(), and telldir().
+
+◆ __fd
+void* __dirstream::__fd
+Definition at line 31 of file dirstream.h.
+
+Referenced by __closedir(), __dirfd(), __readdir64(), __readdir64_r(), and _hurd_fd_opendir().
+
+◆ __ptr
+char* __dirstream::__ptr
+Definition at line 34 of file dirstream.h.
+
+Referenced by __readdir64(), __readdir64_r(), and _hurd_fd_opendir().
+
+◆ __size
+size_t __dirstream::__size
+Definition at line 37 of file dirstream.h.
+
+Referenced by __readdir64(), __readdir64_r(), __seekdir(), and _hurd_fd_opendir().
+
+◆ errcode
+int __dirstream::errcode
+Definition at line 42 of file dirstream.h.
+
+Referenced by __READDIR_R(), and __rewinddir().
+
+◆ fd
+int __dirstream::fd
+Definition at line 32 of file dirstream.h.
+
+Referenced by __closedir(), __dirfd(), __READDIR(), __READDIR_R(), __rewinddir(), and seekdir().
+
+◆ filepos
+off_t __dirstream::filepos
+Definition at line 40 of file dirstream.h.
+
+Referenced by __READDIR(), __READDIR_R(), __rewinddir(), seekdir(), and telldir().
+
+◆ offset
+size_t __dirstream::offset
+Definition at line 38 of file dirstream.h.
+
+Referenced by __READDIR(), __READDIR_R(), __rewinddir(), and seekdir().
+
+◆ size
+size_t __dirstream::size
+Definition at line 37 of file dirstream.h.
+
+Referenced by __READDIR(), __READDIR_R(), __rewinddir(), and seekdir().
+
+The documentation for this struct was generated from the following file:
+sysdeps/mach/hurd/dirstream.h
+
+
+dirstream.h
+Go to the documentation of this file.
+ /* Copyright (C) 1993-2019 Free Software Foundation, Inc.
+    This file is part of the GNU C Library.
+ 
+    The GNU C Library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+ 
+    The GNU C Library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+ 
+    You should have received a copy of the GNU Lesser General Public
+    License along with the GNU C Library; if not, see
+    <http://www.gnu.org/licenses/>.  */
+ 
+ #ifndef _DIRSTREAM_H
+ 
+ #define _DIRSTREAM_H    1
+ 
+ #include <libc-lock.h>
+ 
+ /* Directory stream type.
+ 
+    The Hurd directory format is the same as `struct dirent', so `readdir'
+    returns a pointer into the buffer we read directory data into.  */
+ 
+ struct __dirstream
+   {
+     void *__fd;         /* `struct hurd_fd' pointer for descriptor.  */
+     char *__data;       /* Directory block.  */
+     int __entry_data;       /* Entry number `__data' corresponds to.  */
+     char *__ptr;        /* Current pointer into the block.  */
+     int __entry_ptr;        /* Entry number `__ptr' corresponds to.  */
+     size_t __allocation;    /* Space allocated for the block.  */
+     size_t __size;      /* Total valid data in the block.  */
+     __libc_lock_define (, __lock) /* Mutex lock for this structure.  */
+   };
+ 
+ #endif  /* dirstream.h */
+
+
 Linux下DIR，dirent,stat等结构体详解
 2012年05月26日 17:33:37 小步舞曲 阅读数：46925
 copy from 点击打开链接
