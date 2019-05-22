@@ -170,3 +170,5 @@ int main(int argc, char *argv[])
 在这个程序中我们使用的DIR结构也只是声明了该结构的指针，那么DIR结构应该也是同FILE结构一样，在打开一个目录的时候，由内核帮我们分配该结构体的内存。
 dirent结构也是如此。但stat结构却是要我们自己声明结构体的。
 
+http://pubs.opengroup.org/onlinepubs/009695399/basedefs/dirent.h.html
+
