@@ -407,3 +407,43 @@ int GetGeneFile(const char *_pcDir)
 原文：https://blog.csdn.net/sin0803/article/details/37539313 
 版权声明：本文为博主原创文章，转载请附上博文链接！
  https://www.cnblogs.com/hulubaby/p/9382421.html
+
+
+
+
+
+
+
+
+看unix高级编程时遇到apue.h找不到的问题
+ C语言	 7年前 (2012-11-13)  10369浏览  2评论
+
+ 
+一开始看到这本书，刚翻了几页，就觉得对味。按照书中的代码做练习时，编译代码文件提示fatal error: apue.h: No such file or directory。翻看书的附录B，可以看到apue.h的资料，原来作者是为了减少书中示例代码的长度，将很多包含头文件的代码封装到了apue.h这个文件。
+
+下载源码
+
+从unix高级编程书籍官网下载书籍的上的所有源码。
+
+wget http://www.apuebook.com/src.tar.gz
+解压这个文件
+
+tar -zxvf src.tar.gz
+解压后文件会放在apue.2e目录下，这个目录里包含了书本上的源码，也包含了apue.h和error.c文件。
+
+复制apue.h到/usr/include/下
+
+cp ./apue.2e/include/apue.h /usr/include/
+/usr/include/下并没有这个文件，所以放心复制吧。
+
+复制error.c到/usr/include/下
+
+cp ./apue.2e/lib/error.c /usr/include/
+这里的文件是error.c，不是error.h，/usr/include/目录下有一个error.h的头文件。
+
+编辑/usr/include/apue.h文件
+
+在文件最后#endif前加上包含error.c的代码：
+
+#include "error.c";
+弄完之后重新编译代码文件，OK搞定了。如果需要了解更多信息，可以查看apue.2e目录下的README文档。unix发展到后来延伸出很多分支，在书中也有提及，如果你对自己的系统不了解，可以运行apue.2e目录下的systype.sh，它会告诉你你的系统是什么。
