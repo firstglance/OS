@@ -60,7 +60,8 @@ wchar_t    能表示所有不同的字符码
 O_CLOEXEC，O_CREAT，O_DIRECTORY，O_EXEL，O_NOCITY，O_NOFOLLOW，O_TRUNC，O_TTY_INIT，O_NONBLOCK，O_SYNC。
 （这些都是打开的时候才设置，属于某个打开的文件，inode中并不存在）
 
-另外，当使用到O_CREAT标志来创建文件时，mode中需要包含下列符号：S_IRWXU，S_IRUSR，S_IWUSR，S_IXUSR，S_IRWXG，S_IRGRP，S_IWGRP，S_IXGRP，
+另外，当使用到O_CREAT标志来创建文件时，
+mode中需要包含下列符号：S_IRWXU，S_IRUSR，S_IWUSR，S_IXUSR，S_IRWXG，S_IRGRP，S_IWGRP，S_IXGRP，
 
 S_IRWXO，S_IROTH，S_IWOTH，S_IXOTH。
 
@@ -87,7 +88,8 @@ whence中可以包含如下值：SEEK_SET，SEEK_CUR，SEEK_END，分别表示�
 
 7.ssize_t pread(int fd, void *buf, size_t count, off_t offset)
 
-该函数类似于read函数，区别在于该函数是原子执行，并且不更新文件指针位置，offset用来设置在文件中读取的位置。声明在unistd.h中。
+该函数类似于read函数，区别在于该函数是原子执行，并且不更新文件指针位置，offset用来设置在文件中读取的位置。
+声明在unistd.h中。
 
  8.ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset)
 
@@ -175,7 +177,8 @@ O_ASYNC                 异步I/O（仅FreeBSD和Mac OS X）
 struct stat {
                dev_t     st_dev;     /* ID of device containing file */
                ino_t     st_ino;     /* inode number */
-               mode_t    st_mode;    /* protection */  //该域中保存了文件的访问权限以及文件类型的信息，还包括了设置用户ID位和设置组ID位
+               mode_t    st_mode;    /* protection */  //该域中保存了文件的访问权限以及文件类型的信息，
+还包括了设置用户ID位和设置组ID位
                nlink_t   st_nlink;   /* number of hard links */
                uid_t     st_uid;     /* user ID of owner */
                gid_t     st_gid;     /* group ID of owner */
@@ -377,7 +380,8 @@ mode取值_IONBF，设置为无缓冲。（忽略buf和size）
 
 3. int fflush(FILE *stream)
 
-该函数强制冲洗一个流，将stream流的所有未写数据传送到内核（然后写入磁盘/终端设备中）。若stream为NULL，强制冲洗所有输出流。
+该函数强制冲洗一个流，将stream流的所有未写数据传送到内核（然后写入磁盘/终端设备中）。
+若stream为NULL，强制冲洗所有输出流。
 
 4.FILE *fopen(const char *path, const char *mode) 
 
@@ -386,7 +390,8 @@ mode取值_IONBF，设置为无缓冲。（忽略buf和size）
    FILE *fdopen(int fd, const char *mode)
 
 这几个函数打开一个标准I/O流。声明在stdio.h文件中。
-fopen打开指定的文件；freopen在指定的流上打开一个指定的文件，如果指定流已打开，那么先关闭该流，如果指定流已定向，那么清除该定向，
+fopen打开指定的文件；freopen在指定的流上打开一个指定的文件，如果指定流已打开，
+那么先关闭该流，如果指定流已定向，那么清除该定向，
 该函数一般用来将一个指定的文件打开到标准输入/输出/出错流上；fdopen为一个打开的文件描述符关联一个标准I/O流。
 这几个函数的mode取值如下：
 
@@ -404,7 +409,8 @@ a+/a+b/ab+                为读或追加打开或创建
 
 （b仅代表二进制文件，不影响其他）
 
-fdopen的mode取值有些特殊，取各种“写”的时候，并不截短文件（因为fd表明该文件已经打开，而不是由标准I/O打开的，所以标准I/O没资格截短）。
+fdopen的mode取值有些特殊，取各种“写”的时候，并不截短文件（因为fd表明该文件已经打开，而
+不是由标准I/O打开的，所以标准I/O没资格截短）。
 而且取各种“写”的时候不能没有创建功能，因为fd文件已存在，无须创建。
 
 另外，如果多个进程使用标准I/O打开一个文件，那么并发去写文件都可以正确将数据写入文件，标准I/O流的强大之处。。
@@ -426,7 +432,8 @@ fdopen的mode取值有些特殊，取各种“写”的时候，并不截短文�
 
 这些函数从标准I/O流stream中每次读一个字符。声明在stdio.h文件中。
 其中getc是宏函数，getchar相当于fgetc（stdin）。
-返回值为读到的字符，字符类型本为unsigned char，在这里强制转化成int类型，是为了当出错或者到达文件末尾的时候能够返回-1。
+返回值为读到的字符，字符类型本为unsigned char，在这里强制转化成int类型，
+是为了当出错或者到达文件末尾的时候能够返回-1。
 在stdio.h中，EOF定义为-1，因此将这些函数返回值和EOF比较就可知道是否出错或者是否到达文件末尾。
 
 7.int ferror(FILE *stream)
@@ -543,7 +550,8 @@ ftell获取流内指针的当前位置，  fseek将流内指针偏移量设为of
 如果s为NULL，函数自动申请空间来存放有效路径名字符串，并返回空间地址，
 如果s不为NULL，则将有效路径名字符串存放于s中，并将s地址返回，然后就可用该路径名在程序中手动创建文件了。
 声明在stdio.h文件中。
-该函数有个问题，就是在产生出一个有效文件名和使用该文件名创建文件中间一般会有时间差，在该时间差内可能别的进程会使用该文件名创建文件，这样就会出现问题。
+该函数有个问题，就是在产生出一个有效文件名和使用该文件名创建文件中间一般会有时间差，
+在该时间差内可能别的进程会使用该文件名创建文件，这样就会出现问题。
 
 22.FILE *tmpfile(void)
 
@@ -756,7 +764,8 @@ struct timeval {
 
 在这里总结下进程的5种正常终止方式和3种异常终止方式：
 
-a.在main函数中执行return。（等价于执行exit，也就是在主线程中结束进程，如果仅想结束主线程而不是进程，则在main最后调用pthread_exit即可）
+a.在main函数中执行return。（等价于执行exit，也就是在主线程中结束进程，
+如果仅想结束主线程而不是进程，则在main最后调用pthread_exit即可）
 
 b.调用exit函数（主线程中或者任意子线程中调用）。该函数将调用由atexit登记过的终止处理函数，并关闭所有的标准I/O流。
 
@@ -778,12 +787,14 @@ c.最后一个线程对“取消”请求做出响应。
 如果子进程希望父进程知道它是如何结束的，通过调用exit，_exit，_Exit函数，并把退出状态作为参数传递给它们，
 而在异常终止情况下，内核会产生一个指示其异常终止原因的终止状态，最终父进程通过调用wait或waitpid函数就可以获取到终止状态。
 exit和_Exit最终还是调用_exit函数，将退出状态转换成进程的终止状态。
-exit，_exit，_Exit三个函数的参数（退出状态）必然等于进程的终止状态，但是线程的结束函数pthread_exit的参数（退出状态）不会等于进程的终止状态。
+exit，_exit，_Exit三个函数的参数（退出状态）必然等于进程的终止状态，
+但是线程的结束函数pthread_exit的参数（退出状态）不会等于进程的终止状态。
 
 20.int atexit(void (*function)(void))
 
 由该函数登记的function函数，会被exit（或者主线程的return/最后一个线程的return）自动调用，
-也就说只有在进程正常结束时才调用，线程结束不会调用，就算是在某个非主线程中用atexit设置的清理函数，也得等到整个进程结束时才调用。声明在stdlib.h文件中。
+也就说只有在进程正常结束时才调用，线程结束不会调用，就算是在某个非主线程中用atexit设置的清理函数，
+也得等到整个进程结束时才调用。声明在stdlib.h文件中。
 
 21.void *malloc(size_t size)
 
@@ -794,14 +805,16 @@ exit，_exit，_Exit三个函数的参数（退出状态）必然等于进程的
      void free(void *ptr)
 
 前三个函数在堆中为进程分配空间，最后一个函数释放这些空间。
-其中，malloc函数不对分配的空间进行初始化，calloc函数将分配的空间初始化为 0，realloc用来调整（变大或减小）由前两个函数非配空间的大小，
+其中，malloc函数不对分配的空间进行初始化，calloc函数将分配的空间初始化为 0，
+realloc用来调整（变大或减小）由前两个函数非配空间的大小，
 其中size参数是新存储区的大小，不是新旧存储区大小之差，
 当扩大空间时，如果原存储区周围的空闲空间不足，则在其他地方重新开辟空间，再将 原存储区中的值拷贝到新空间；
 如果原存储区周围空间足够，则在原存储区位置上向高地址方向扩充。声明在stdlib.h文件中。
 
 22.char *getenv(const char *name)
 
-该函数在进程的环境表（环境表是一个指针数组，每个元素指向了“name=value”形式的串）中查找name的环境变量值。返回一个字符串指针。声明在stdlib.h文件中。
+该函数在进程的环境表（环境表是一个指针数组，每个元素指向了“name=value”形式的串）中查找name的环境变量值。返
+回一个字符串指针。声明在stdlib.h文件中。
 
 23.int putenv(char *string)
 
@@ -833,7 +846,8 @@ d.新增一个name，如果这不是第一次新增，说明之前调用过mallo
      void longjmp(jmp_buf env, int val)
 
 第一个函数将调用时的堆栈内容保存在env中，以供第二个函数使用。
-第二个函数使用env值，会跳到设置env的函数中（即setjmp），由于setjmp可以对应多个longjmp函数，因此val变量传递的数字会对多个longjmp函数加以区分。
+第二个函数使用env值，会跳到设置env的函数中（即setjmp），由于setjmp可以对应多个longjmp函数，
+因此val变量传递的数字会对多个longjmp函数加以区分。
 
 《apue》上说，对于无优化的编译，使用longjmp函数跳回后，全局变量，静态局部变量，自动变量，寄存器变量，
 volatile声明的变量都不会回滚到以前的值。对于优化后的编译，自动变量和寄存器变量会回滚到以前的值。笔者未进行过测试。
@@ -928,7 +942,8 @@ b.子进程执行其他的程序。子进程的fork返回后立即调用exec。
 区别是：该函数不使用“写时复制”技术。也
 就是说，该函数创建的子进程目的就是要用exec执行一个新程序。
 子进程如果不执行exec函数，就永远运行在父进程的地址空间中，就算执行写操作，也不会复制父进程的地址空间到子进程。
-此外，vfork会保证子进程先运行，子进程调用exec或exit之后父进程才可能被调度。（如果在调用者两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁）
+此外，vfork会保证子进程先运行，子进程调用exec或exit之后父进程才可能被调度。
+（如果在调用者两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁）
 
 4.pid_t wait(int *status)
 
@@ -956,7 +971,8 @@ WUNTRACED           若系统支持作业控制，那么由pid指定的任一子
 5. int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
 
 该函数和waitpid函数类似，也是等待指定pid的子进程返回。声明在sys/wait.h文件中。
-但区别是：该函数把要等待的子进程ID和子进程所在组ID区分开了，分别表示。infop中包含了引起子进程状态改变的信号的详细信息。idtype提供了要等待的ID类型：
+但区别是：该函数把要等待的子进程ID和子进程所在组ID区分开了，分别表示。
+infop中包含了引起子进程状态改变的信号的详细信息。idtype提供了要等待的ID类型：
 
 P_PID        等待进程号为id的子进程
 
@@ -1015,7 +1031,8 @@ p的话，要根据所打开文件描述符是否设置FD_CLOEXEC标志（执行
 
 a.如果进程具有超级用户权限，可将进程的实际用户ID，有效用户ID，保存的设置用户ID设置为uid。
 
-b.如果进程没有超级用户权限，但是uid等于进程的实际用户ID或保存的设置用户ID，则只将有效用户ID设置为uid，不改变实际用户ID和保存的设置用户ID。
+b.如果进程没有超级用户权限，但是uid等于进程的实际用户ID或保存的设置用户ID，则只将有效用户ID设置为uid，
+不改变实际用户ID和保存的设置用户ID。
 
 c.如果a和b都不满足，则将error设置为EPERM，并返回-1。
 
@@ -1024,7 +1041,8 @@ c.如果a和b都不满足，则将error设置为EPERM，并返回-1。
 a.只有超级用户进程可以更改实际用户ID。
 
 b.仅当对程序文件设置了设置用户ID位时，exec函数才会设置有效用户ID为程序文件的拥护者ID。
-否则exec函数不改变有效用户ID，维持原先值。上边的b表明了任何时候都可调用setuid将有效用户ID设置为实际用户ID或保存的设置用户ID。
+否则exec函数不改变有效用户ID，维持原先值。
+上边的b表明了任何时候都可调用setuid将有效用户ID设置为实际用户ID或保存的设置用户ID。
 
 c.保存的设置用户ID是有exec复制有效用户ID而得来的。
 
@@ -1056,7 +1074,8 @@ eg：execl(“home/sar/bin/testinterp”,  "testinterp", "myarg1", "MY ARG2", (c
 其中home/sar/bin/testinterp是解释器文件。
 查看该解释器内容：cat home/sar/bin/testinterp ===>#!/home/sar/bin/echoarg foo。
 该解释器文件第一行包含了解释器命令为/home/sar/bin/echoarg，foo为该命令的参数。
-execl将执行/home/sar/bin/echoarg程序，将“/home/sar/bin/echoarg”，“foo”，“home/sar/bin/testinterp”，"myarg1"，"MY ARG2"作为参数传递进去。
+execl将执行/home/sar/bin/echoarg程序，
+将“/home/sar/bin/echoarg”，“foo”，“home/sar/bin/testinterp”，"myarg1"，"MY ARG2"作为参数传递进去。
 
 12.int system(const char *command)
 
@@ -1225,7 +1244,8 @@ siginfo_t
 
 如果要在信号处理函数中实现远跳转，应该使用这两个函数进行堆栈保存和恢复，而避免使用setjmp和longjmp。
 因为执行信号处理程序时系统自动设置当前信号的屏蔽字，信号处理程序结束时系统自动恢复屏蔽字，
-而setjmp和longjmp函数不对屏蔽字进行任何操作，因此使用longjmp远跳转之后，当前信号的屏蔽字就无法恢复了（以后无法处理当前信号了）。
+而setjmp和longjmp函数不对屏蔽字进行任何操作，因此使用longjmp远跳转之后，
+当前信号的屏蔽字就无法恢复了（以后无法处理当前信号了）。
 因此需要使用9中这两个函数。sigsetjmp函数比setjmp多出了一个savesigs参数，
 该参数非0时，该函数会保存当前进程的信号屏蔽字，然后siglongjmp函数会将保存的信号屏蔽字恢复，这样当从信号处理函数中远跳转后，
 进程的信号屏蔽字仍然会恢复到以前的状态。声明在setjmp.h文件中。
@@ -1242,7 +1262,8 @@ mask参数用来设置进程的信号屏蔽字，
 11.void abort(void)
 
 该函数发送SIGABRT信号至当前进程，使当前进程非正常终止。
-无论程序中在调用abort之前，对SIGABRT信号的处理进行何种设置，abort都会终止该进程（abort内部会重新将SIGABRT信号的处理设置为默认方式）。声明在stdlib.h文件中。
+无论程序中在调用abort之前，对SIGABRT信号的处理进行何种设置，
+abort都会终止该进程（abort内部会重新将SIGABRT信号的处理设置为默认方式）。声明在stdlib.h文件中。
 
 12.unsigned int sleep(unsigned int seconds)
 
@@ -1275,11 +1296,13 @@ SIGTTOU          后台进程组成员读控制终端
 
 14. void psignal(int sig, const char *s)
 
-该函数将字符串s输出到标准出错文件，后接一个冒号和空格，再接着是对sig信号的说明，最后是换行符。声明在signal.h文件中。类似于perror函数。
+该函数将字符串s输出到标准出错文件，后接一个冒号和空格，再接着是对sig信号的说明，最后是换行符。
+声明在signal.h文件中。类似于perror函数。
 
 15.char *strsignal(int sig)
 
-给出一个信号sig，函数会返回说明该信号的字符串。应用程序可用该字符串打印关于接收到信号的出错消息。声明在string.h文件中。类似于strerror函数。
+给出一个信号sig，函数会返回说明该信号的字符串。应用程序可用该字符串打印关于接收到信号的出错消息。
+声明在string.h文件中。类似于strerror函数。
 
 第11章 线程概念
 
@@ -1394,7 +1417,8 @@ int pthread_rwlock_wrlock(pthread_rwlock_t *rwlock)
 int pthread_rwlock_unlock(pthread_rwlock_t *rwlock)
 
 这几个函数分别在读模式下或者写模式下锁定读写锁，无论哪种模式下锁定读写锁，都可用第三个函数来解锁。
-它们均声明在pthread.h文件中。读写锁实现的时候可能会对共享模式下可获取的锁数量进行限制，所以需要检查pthread_rwlock_rdlock函数返回值。
+它们均声明在pthread.h文件中。读写锁实现的时候可能会对共享模式下可获取的锁数量进行限制，
+所以需要检查pthread_rwlock_rdlock函数返回值。
 
 int pthread_rwlock_tryrdlock(pthread_rwlock_t *rwlock)
 
@@ -1411,7 +1435,8 @@ int pthread_cond_destroy(pthread_cond_t *cond)
 这两个函数和上边的函数是类似的。声明在pthread.h文件中。
 第一个函数用来对条件变量进行初始化。
 第二个函数用来对条件变量进行资源清理。
-如果条件变量是由malloc等手动分配的，那么在释放该空间前，要先调用第二个函数进行资源清理。如果使用默认属性进行初始化，attr传递NULL即可。
+如果条件变量是由malloc等手动分配的，那么在释放该空间前，要先调用第二个函数进行资源清理。
+如果使用默认属性进行初始化，attr传递NULL即可。
 
 int pthread_cond_wait(pthread_cond_t *restrict cond, pthread_mutex_t *restrict mutex)
 
@@ -1432,7 +1457,8 @@ struct timespec {
 
 };
 
-第二个函数的等待时间是个绝对数而不是相对数，也就是说，如果需要等待3分钟，就要在当前时间上加3分钟然后转换到struct timespec结构中。
+第二个函数的等待时间是个绝对数而不是相对数，也就是说，如果需要等待3分钟，
+就要在当前时间上加3分钟然后转换到struct timespec结构中。
 
 int pthread_cond_signal(pthread_cond_t *cond)
 
@@ -1477,7 +1503,8 @@ stacksize           线程栈的大小（字节数）
 这两个函数用来获取和设置线程的线程栈地址属性和线程栈大小属性。
 声明在pthread.h文件中。一个进程中的所有线程共用该进程的栈地址空间，
 当线程数太多时，可能会消耗完进程的栈地址空间，于是就需要使用malloc或者mmap为线程栈重新分配空间。
-分配好之后需要用第二个函数来设置栈。stackaddr是线程栈的最低地址，因此它可能是线程的开始或者结尾（栈从高地址向低地址方向伸展）。
+分配好之后需要用第二个函数来设置栈。
+stackaddr是线程栈的最低地址，因此它可能是线程的开始或者结尾（栈从高地址向低地址方向伸展）。
 
 4.int pthread_attr_getstacksize(pthread_attr_t *attr, size_t *stacksize)
 
@@ -1555,7 +1582,8 @@ int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t *  restrict attr, i
 
 int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr, int pshared)
 
-这两个函数用来获取和设置读写锁的共享属性。声明在pthread.h文件中。类似于互斥量的该函数。读写锁仅支持共享属性，没有类型属性。
+这两个函数用来获取和设置读写锁的共享属性。声明在pthread.h文件中。
+类似于互斥量的该函数。读写锁仅支持共享属性，没有类型属性。
 
 c.条件变量属性
 
@@ -1569,7 +1597,8 @@ int pthread_condattr_getpshared(const pthread_condattr_t *restrict attr, int *re
 
 int pthread_condattr_setpshared(pthread_condattr_t *attr, int pshared)
 
-这两个函数用来获取和设置条件变量的共享属性。声明在pthread.h文件中。类似于互斥量和读写锁的该函数。读写锁仅支持共享属性，没有类型属性。
+这两个函数用来获取和设置条件变量的共享属性。声明在pthread.h文件中。
+类似于互斥量和读写锁的该函数。读写锁仅支持共享属性，没有类型属性。
 
 8.void flockfile(FILE *filehandle)
 
@@ -1578,7 +1607,8 @@ int pthread_condattr_setpshared(pthread_condattr_t *attr, int pshared)
    void funlockfile(FILE *filehandle)
 
 这几个函数用来为FILE对象加锁和解锁。声明在stdio.h文件中。其中第二个函数不会阻塞当前线程。
-标准IO函数都是线程可重入的函数（所谓一个函数是可重入的，指的是该函数可以被并发的调用），因为它们会对标准IO流FILE进行加锁访问。
+标准IO函数都是线程可重入的函数（所谓一个函数是可重入的，指的是该函数可以被并发的调用），
+因为它们会对标准IO流FILE进行加锁访问。
 并不是说标准IO函数内部调用了这几个函数，而是表现出来的特性就像是调用了这几个函数。
 这几个函数主要是留给应用程序来调用，对没有加锁的FILE流进行加锁保护。、
 
@@ -1637,8 +1667,10 @@ int pthread_condattr_setpshared(pthread_condattr_t *attr, int pshared)
 
 该函数用来设置当前线程的可取消状态。声明在pthread.h文件中。
 该函数把当前的可取消状态设置为state，把原来的可取消状态保存到oldstate指向的单元中。
-pthread_cancel调用并不等待线程终止，该调用执行后，被取消线程继续运行，当运行到某个取消点时，才被检查自己是否要被取消。
-《apue》书中列举了POSIX.1所定义的取消点函数。当线程长时间都执行不到这些取消点函数时，可以调用15中的函数，它是专门的取消点函数。
+pthread_cancel调用并不等待线程终止，该调用执行后，被取消线程继续运行，
+当运行到某个取消点时，才被检查自己是否要被取消。
+《apue》书中列举了POSIX.1所定义的取消点函数。
+当线程长时间都执行不到这些取消点函数时，可以调用15中的函数，它是专门的取消点函数。
 线程的可取消状态state有两个值：PTHREAD_CANCEL_ENABLE和PTHREAD_CANCEL_DISABLE，线程启动时默认取值是前者。
 如果线程的可取消状态值设为前者，则线程在取消点可以被取消；
 否则设为后者的话，在取消点也不会杀死线程，这时，取消请求对该线程而言处于未决状态，
@@ -1646,7 +1678,8 @@ pthread_cancel调用并不等待线程终止，该调用执行后，被取消线
 
 15.void pthread_testcancel(void)
 
-该函数用来为当前线程添加取消点。声明在pthread.h文件中。如果当前线程的可取消状态被设为PTHREAD_CANCEL_DISABLE，则该函数没有任何效果。
+该函数用来为当前线程添加取消点。声明在pthread.h文件中。
+如果当前线程的可取消状态被设为PTHREAD_CANCEL_DISABLE，则该函数没有任何效果。
 
 16.int pthread_setcanceltype(int type, int *oldtype)
 
@@ -1665,15 +1698,22 @@ pthread_cancel调用并不等待线程终止，该调用执行后，被取消线
 
 18.int sigwait(const sigset_t *set, int *sig)
 
-线程通过调用该函数等待一个或多个信号发生。声明在pthread.h文件中。函数的返回值存放在sig指向的变量中，表明信号发送的数量。
-如果信号集set中的某个信号在sigwait调用的时候处于未决状态，那么sigwait函数将无阻塞的返回，返回前sigwait将从进程中移除那些处于未决状态的信号。
-线程在调用sigwait函数之时，必须阻塞它所等待的信号，从而避免错误发生（在函数返回之前的时间内，又会有新的等待信号产生）。
+线程通过调用该函数等待一个或多个信号发生。声明在pthread.h文件中。
+函数的返回值存放在sig指向的变量中，表明信号发送的数量。
+如果信号集set中的某个信号在sigwait调用的时候处于未决状态，那么sigwait函数将无阻塞的返回，
+返回前sigwait将从进程中移除那些处于未决状态的信号。
+线程在调用sigwait函数之时，必须阻塞它所等待的信号，
+从而避免错误发生（在函数返回之前的时间内，又会有新的等待信号产生）。
 sigwait函数在返回前会取消信号集的阻塞状态（即恢复线程的屏蔽字）。
 
-使用该函数使得线程简化了信号处理，将异步产生的信号用同步的方式来处理，说白了就是当信号产生时，不去执行进程的信号处理函数，
-而是被等待信号的线程所拦截（通过sigwait函数）而从sigwait函数返回，这样就相当于将等待信号的线程环境（线程中sigwait以后的代码）作为了信号处理程序，
-而不是进程的信号处理函数。当有多个线程调用sigwait函数来等待同一个信号，信号发生时只会有一个线程从sigwait返回。
-这块讨论的信号到底是由线程的sigwait捕获还是进程的信号处理函数捕获，是由操作系统实现的，操作系统要么实现前者，要么实现后者，而不会二者皆可。
+使用该函数使得线程简化了信号处理，将异步产生的信号用同步的方式来处理，
+说白了就是当信号产生时，不去执行进程的信号处理函数，
+而是被等待信号的线程所拦截（通过sigwait函数）而从sigwait函数返回，
+这样就相当于将等待信号的线程环境（线程中sigwait以后的代码）作为了信号处理程序，
+而不是进程的信号处理函数。当有多个线程调用sigwait函数来等待同一个信号，
+信号发生时只会有一个线程从sigwait返回。
+这块讨论的信号到底是由线程的sigwait捕获还是进程的信号处理函数捕获，
+是由操作系统实现的，操作系统要么实现前者，要么实现后者，而不会二者皆可。
 
 19.int pthread_kill(pthread_t thread, int sig)
 
@@ -1684,17 +1724,20 @@ sigwait函数在返回前会取消信号集的阻塞状态（即恢复线程的�
 20.int pthread_atfork(void (*prepare)(void), void (*parent)(void), void (*child)(void))
 
 该函数用于清除子进程中的锁状态。声明在pthread.h文件中。
-当在一个线程中使用fork创建子进程时，子进程通过继承父进程的整个地址空间，从而也继承了父进程的所有互斥量，读写锁和条件变量状态。
+当在一个线程中使用fork创建子进程时，子进程通过继承父进程的整个地址空间，
+从而也继承了父进程的所有互斥量，读写锁和条件变量状态。
 但是，在子进程中只存在一个线程，那就是父进程中调用fork的那个线程的副本。
 由于子进程不包含其他线程副本，于是子进程就无法感知到其他线程中的锁，因此需要借助该函数来清理锁状态。
 如果子进程创建好后，立即调用了exec函数，就不需要清理那些锁了，因为整个旧的地址空间会被抛弃。
 
 该函数的作用是来帮助fork后的子进程把其所有继承而来的锁打开。
 该函数的原理：该函数在fork函数之前进行调用，来注册三个处理函数prepare，parent和child。
-注册成功后，prepare函数会在fork函数创建子进程之前调用，作用是获取父进程定义的所有锁；parent会在fork创建完子进程，将要返回父进程环境时调用，
+注册成功后，prepare函数会在fork函数创建子进程之前调用，作用是获取父进程定义的所有锁；
+parent会在fork创建完子进程，将要返回父进程环境时调用，
 作用是打开父进程的所有锁；child函数会在fork创建完子进程，将要返回子进程环境时调用，作用是打开子进程的所有锁。
 至此，子进程中所有继承而来的锁全部被打开了。
-注意：如果不想用哪个处理函数，注册时该函数的参数传递为NULL。该函数可以在fork之前多次调用，或者在多个模块中调用，详细例子参考《apue》。
+注意：如果不想用哪个处理函数，注册时该函数的参数传递为NULL。
+该函数可以在fork之前多次调用，或者在多个模块中调用，详细例子参考《apue》。
 
 第14章 高级I/O
 
@@ -1738,7 +1781,8 @@ void FD_SET(int fd, fd_set *set)
 void FD_ZERO(fd_set *set)
 
 第一个函数将fd指定的一位清除。第二个函数测试一个指定位是否设置。第三个函数用来设置一个指定位。
-最后一个函数将fd_set变量的所有位设置为0。一般在定一个了一个描述符集变量后，必须先用FD_ZERO清除其所有位，然后再设置我们关心的各个位。
+最后一个函数将fd_set变量的所有位设置为0。一般在定一个了一个描述符集变量后，
+必须先用FD_ZERO清除其所有位，然后再设置我们关心的各个位。
 
 select函数的中间三个参数readfds，writefds，excpetfds中的任意一个或者全部都可以为空指针，这表示对相应状态并不关心。
 如果这三个参数都是空指针，select函数就相当于sleep函数，不过睡眠的时间更加精确。select有三个可能的返回值：
@@ -1754,7 +1798,8 @@ c.返回值为正值表示已经有描述符准备好了。如果有同一个描
 另外，对于普通文件描述符，获取其读，写，异常状态时总是返回准备好了。
 如果在一个描述符上碰到了文件结尾处，select指示该描述符是可读状态，而不指示其为异常状态。
 
-2.int pselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const struct timespec *timeout, const sigset_t *sigmask)
+2.int pselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, 
+const struct timespec *timeout, const sigset_t *sigmask)
 
 该函数域select函数类似。声明在sys/select.h文件中。有以下区别：
 
@@ -1782,7 +1827,8 @@ struct pollfd {
                short events;     /* requested events */
                short revents;    /* returned events */
            };
-结构体中的events成员用来告诉内核我们关心该描述符的什么状态。函数返回时，内核设置revents成员，以说明对于该描述符已经发生了什么事件。
+结构体中的events成员用来告诉内核我们关心该描述符的什么状态。
+函数返回时，内核设置revents成员，以说明对于该描述符已经发生了什么事件。
 events和revents取值如下：
 
 events：
@@ -1814,8 +1860,10 @@ POLLHUP                  已挂断
 POLLNVAL                 描述符不引用一打开文件
 
 当描述符被挂断后，就不能再写向该描述符，但仍可能从该描述符中读到数据。
-应该区分文件结束和挂断之间的区别：如果正从终端输入数据，并键入了文件结束字符，POLLIN被打开，于是就可读文件结束标志（read返回0）。
-如果测试的正在读调制解调器，并且电话线已挂断，则在revents中将街道POLLHUP通知（之前POLLHUP在revents中没有打开）。
+应该区分文件结束和挂断之间的区别：如果正从终端输入数据，并键入了文件结束字符，
+POLLIN被打开，于是就可读文件结束标志（read返回0）。
+如果测试的正在读调制解调器，并且电话线已挂断，
+则在revents中将街道POLLHUP通知（之前POLLHUP在revents中没有打开）。
 
 4.ssize_t readv(int fd, const struct iovec *iov, int iovcnt)
 
@@ -1835,9 +1883,11 @@ readv函数总是填满一个缓冲区，再填写下一个缓冲区。readv返�
 5.void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
 
 该函数将一个给定文件映射到一个存储区域中。声明在sys/mman.h文件中。
-addr用于指定映射存储区的起始地址，通常将其设置为0，表示由系统选择该映射区的起始地址（系统一般选择堆区和栈区中间的共享区）。
+addr用于指定映射存储区的起始地址，通常将其设置为0，
+表示由系统选择该映射区的起始地址（系统一般选择堆区和栈区中间的共享区）。
 该函数返回值为映射区的起始地址。fd参数指定要被映射文件的描述符，在映射之前，先要打开该文件。
-length参数指示映射区的长度（字节为单位）。offset参数指示要映射字节在文件中的起始偏移量。prot参数说明对映射存储区的保护要求：
+length参数指示映射区的长度（字节为单位）。
+offset参数指示要映射字节在文件中的起始偏移量。prot参数说明对映射存储区的保护要求：
 
 PROT_READ       映射区可读
 
@@ -1847,7 +1897,8 @@ PROT_EXEC       映射区可执行
 
 PROT_NONE      映射区不可访问
 
-对映射存储区的保护要求不能超过文件open模式访问权限。例如，若该文件是只读打开的，那么对映射存储区就不能指定PROT_WRITE。
+对映射存储区的保护要求不能超过文件open模式访问权限。
+例如，若该文件是只读打开的，那么对映射存储区就不能指定PROT_WRITE。
 
 flags参数影响映射存储区的多种属性：
 
@@ -1857,7 +1908,8 @@ MAP_FIXED         返回值必须等于addr。不推荐使用该标志，因为�
 该地址。将addr指定为0可获得最大可移植性。
 
 MAP_SHARED     该标志说明本进程对该映射区做的修改对其他进程是可见的。
-说白了，就是本进程对该映射区做的修改都会真正修改磁盘上的该文件。这样，其它使用该标志映射该文件的进程就会和本进程共享该文件，
+说白了，就是本进程对该映射区做的修改都会真正修改磁盘上的该文件。
+这样，其它使用该标志映射该文件的进程就会和本进程共享该文件，
 对该区域的修改对于这些进程都是可见的，最终也会修改磁盘上的文件。
 
 MAP_PRIVATE     使用了该标志，只是将文件的一个副本映射到存储区中，
@@ -1866,15 +1918,20 @@ MAP_PRIVATE     使用了该标志，只是将文件的一个副本映射到存�
 
 还有许多MAP_类标志，详情参考man手册。
 
-需要注意的是，一般映射区的长度会是内存页长的整数倍，那么需要映射的文件如果比内存的页长小，那么系统会把映射区内除了文件以外的多余部分设置为0，
+需要注意的是，一般映射区的长度会是内存页长的整数倍，那么需要映射的文件如果比内存的页长小，
+那么系统会把映射区内除了文件以外的多余部分设置为0，
 对这部分的操作不会影响到文件。
-例如，文件长度为12字节，系统页长为512字节，因此多出的500字节系统会设置为0，并且操作这500字节对文件无影响（如果想让文件映射满一页，
-可以先对打开的文件进行lseek操作，将文件指针移动到距离文件开头一页大小的位置，再随意向文件中写一个字符即可，实际上该操作将文件变大了再映射）。
+例如，文件长度为12字节，系统页长为512字节，因此多出的500字节系统会设置为0，
+并且操作这500字节对文件无影响（如果想让文件映射满一页，
+可以先对打开的文件进行lseek操作，将文件指针移动到距离文件开头一页大小的位置，
+再随意向文件中写一个字符即可，实际上该操作将文件变大了再映射）。
 此外，与映射区相关信号有两个：SIGSEGV和SIGBUS。
-第一个信号通常用于指示进程试图访问对它不可用的存储区，如果进程企图存数据到mmap指定为只读的映射区，那么也会产生该信号。
+第一个信号通常用于指示进程试图访问对它不可用的存储区，
+如果进程企图存数据到mmap指定为只读的映射区，那么也会产生该信号。
 如果访问映射区的一部分，该部分已经不存在了，则会产生第二个信号。
 例如进程映射了一个文件后，另外一个进程又将该文件截短了，那么该进程如果访问被截去的部分时就会接收到第二个信号。
-最后，用fork产生子进程后，子进程会继承存储映射区（因为存储映射区也是父进程地址空间的组成部分）。子进程调用exec执行新程序后，不再继承存储映射区。
+最后，用fork产生子进程后，子进程会继承存储映射区（因为存储映射区也是父进程地址空间的组成部分）。
+子进程调用exec执行新程序后，不再继承存储映射区。
 
 6.int mprotect(void *addr, size_t len, int prot)
 
@@ -1906,16 +1963,19 @@ MS_INVALIDATE标志是可选标志，用来丢弃与磁盘没有同步的任何�
 这时候父进程和子进程中总共有四个管道端口，它们之间都是通的，
 也就是说，向父进程的pipefd[1]写入的数据既可以从父进程的pipefd[0]中读出也可以从子进程的pipefd[0]中读出；
 同理，向子进程的pipefd[1]写入的数据既可以从子进程的pipefd[0]中读出也可以从父进程的pipefd[0]中读出。
-但是管道中的数据被读一次后，就会被清除，不会保留。向管道中连续写入的数据，第二次的数据回追加到第一次数据后面，而不会覆盖第一次的数据。
+但是管道中的数据被读一次后，就会被清除，不会保留。向管道中连续写入的数据，
+第二次的数据回追加到第一次数据后面，而不会覆盖第一次的数据。
 多个进程对同一个管道进行写操作时，如果写入的数据长度大于管道的尺寸PIPE_BUF时，可入的数据可能会穿插，
 如果写入的数据小于PIPE_BUF，则没有穿插问题（可用pathconf/fpathconf函数获取PIPE_BUF值的大小）。
 一般在父子进程间使用管道，会关闭父进程的读（或写）端描述符，同时关闭子进程的写（或读）端描述符，使父子进程半双工通信。
-当子进程执行exec后，文件描述符会丢失，因此一般将管道端口描述符先重定向到标准输入输出描述符中，再使子进程执行exec，这样在子进程中就可继续使用管道。
+当子进程执行exec后，文件描述符会丢失，因此一般将管道端口描述符先重定向到标准输入输出描述符中，
+再使子进程执行exec，这样在子进程中就可继续使用管道。
 当管道的一端被关闭后，下面两个规则起作用：
 
 a.当读一个写端已被关闭的管道时，在所有数据被读取后，read返回0，表示到达了文件末尾。
 
-b.如果写一个读端已被关闭的管道时，会产生SIGPIPE信号。如果忽略该信号或者捕捉该信号并从信号处理函数返回后，write函数返回-1，errno设置为EPIPE。
+b.如果写一个读端已被关闭的管道时，会产生SIGPIPE信号。如果忽略该信号或者捕捉该信号并从信号处理函数返回后，
+write函数返回-1，errno设置为EPIPE。
 
 最后，a.历史上的管道是半双工的，b.管道只能在具有公共祖先的进程之间使用。
 
@@ -1945,11 +2005,13 @@ mode参数取值和open/creat的mode参数相同。创建FIFO文件的用户和�
 
 a.如果没有指定O_NONBLOCK，那么只读open要阻塞到某个其它进程为写而打开它；类似的，只写open要阻塞到某个其它进程为读而打开它。
 
-b.如果指定了O_NONBLOCK，只读open函数会立即返回（如果没有其它进程写FIFO）；只写open将返回-1，并设置errno为ENXIO（如果没有其它进程为读而打开FIFO）。
+b.如果指定了O_NONBLOCK，只读open函数会立即返回（如果没有其它进程写FIFO）；
+只写open将返回-1，并设置errno为ENXIO（如果没有其它进程为读而打开FIFO）。
 
 和管道类似，若用write写一个尚无进程为读而打开的FIFO，则产生信号SIGPIPE；若某个FIFO的最后一个写进程关闭了该FIFO，
 则将为该FIFO的读进程产生一个文件结束标志（如果以读写打开FIFO，最后一个写进程关闭FIFO时，不会产生文件结束标志）。
-如果有多个进程写同一个FIFO，如果不希望数据穿插，则需要考虑原子操作。和管道类似，常量PIPE_BUF说明了可被原子写入FIFO的最大数据量。
+如果有多个进程写同一个FIFO，如果不希望数据穿插，则需要考虑原子操作。
+和管道类似，常量PIPE_BUF说明了可被原子写入FIFO的最大数据量。
 
 FIFO有两种用途：
 
@@ -1959,9 +2021,12 @@ b.FIFO用于客户进程---服务器进程应用程序中，以便在客户进�
 
 5.key_t ftok(const char *pathname, int proj_id)
 
-该函数用来为XSI IPC创建一个键（key）。声明在sys/msg.h文件中。所谓XSI IPC，指的是消息队列，信号量，共享存储这三种进程间通信方式。
-不包括前边提到的管道和FIFO。XSI IPC创建的IPC结构，不会因为进程的终止而消失，不像管道和FIFO，进程终止后管道就不存在了，FIFO虽然存在，但其数据已被清空。
-使用该函数创建键时，pathname参数所指定的文件必须存在，该函数将使用指定文件的stat结构中st_dev和st_ino字段和proj_id参数的后8位组合起来生成键。
+该函数用来为XSI IPC创建一个键（key）。声明在sys/msg.h文件中。
+所谓XSI IPC，指的是消息队列，信号量，共享存储这三种进程间通信方式。
+不包括前边提到的管道和FIFO。XSI IPC创建的IPC结构，不会因为进程的终止而消失，
+不像管道和FIFO，进程终止后管道就不存在了，FIFO虽然存在，但其数据已被清空。
+使用该函数创建键时，pathname参数所指定的文件必须存在，
+该函数将使用指定文件的stat结构中st_dev和st_ino字段和proj_id参数的后8位组合起来生成键。
 生成的键可供下边的函数来创建XSI IPC结构。创建消息队列，信号量，共享存储所用的函数分别为msgget，semget，shmget，
 这三个函数都有两个类似的参数：一个key（就是由ftok生成的键）和一个整型msgflag。
 可以用这三个函数创建新的IPC结构或者打开已存在的IPC结构。如若要创建新结构，需满足下面两个条件之一：
@@ -1972,9 +2037,11 @@ b.key当前未与特定类型的IPC结构相结合，并且msgflag终止定了IP
 
 如若需要打开已存在的IPC结构，key值必须等于创建IPC结构时所指定的键，并且msgflag中不应指定IPC_CREAT。
 为了打开已存在的IPC结构，key值决不能为IPC_PRIVATE，该值比较特殊，它总是用来创建一个新IPC结构。
-如果需要访问用IPC_PRIVATE键创建的IPC结构，一定要知道该结构的标识符，然后用其他IPC调用（msgsnd和msgrcv）使用该标识符，
+如果需要访问用IPC_PRIVATE键创建的IPC结构，一定要知道该结构的标识符，
+然后用其他IPC调用（msgsnd和msgrcv）使用该标识符，
 而不能用msgget，semget，shmget三个函数来打开。
-如果需要创建一个新的IPC结构，而且要确保不是引用具有同一标识符的一个已存在IPC结构，需要在msgflag中同时指定IPC_CREAT和IPC_EXCL位，
+如果需要创建一个新的IPC结构，而且要确保不是引用具有同一标识符的一个已存在IPC结构，
+需要在msgflag中同时指定IPC_CREAT和IPC_EXCL位，
 这样的话，如果IPC结构已经存在就会造成出错，返回EEXIST（这与指定了O_CREAT和O_EXCL标志的open函数类似）。
 消息队列，信号量，共享存储三者有各自的IPC结构，后边会列出。
 这些IPC结构中包含了一个相同结构struct ipc_perm结构，装有该IPC结构的权限和所有者。
@@ -2012,7 +2079,8 @@ uid，gid，cuid，cgid分别指定了拥有者ID，拥有者组ID，创建者ID
 
 该函数用来创建一个新的消息队列或者打开一个现存消息队列，返回消息队列标识符。
 后面对消息队列进行操作的函数可以使用该标识符。该队列ID可以声明在sys/msg.h文件中。
-该函数会创建如下所示的结构体，并初始化一部分成员：msg_perm中的各个值；msg_qnum，msg_lspid，msg_lrpid，msg_stime，msg_ctime都设置为0；
+该函数会创建如下所示的结构体，并初始化一部分成员：
+msg_perm中的各个值；msg_qnum，msg_lspid，msg_lrpid，msg_stime，msg_ctime都设置为0；
 msg_ctime设置为当前时间；msg_qbytes设置为系统限制值。
 
 struct msqid_ds
@@ -2048,7 +2116,8 @@ msqid是消息队列ID（就是msgget函数返回的队列描述符），cmd参�
 
 a.IPC_STAT         取此队列的msqid_ds结构，并将它存放在buf指向的结构中
 
-b.IPC_SET           按由buf指向结构中的值，设置与此队列相关结构中的下列四个字段：msg_perm.uid，msg_perm.gid，msg_perm.mode和msg_qbytes。
+b.IPC_SET           按由buf指向结构中的值，
+设置与此队列相关结构中的下列四个字段：msg_perm.uid，msg_perm.gid，msg_perm.mode和msg_qbytes。
 此命令只能由下　　　　　　　　 面两种进程执行：一种是其有效用户ID等于msg_perm.cuid或msg_perm.uid，
 另一种是具有超级用户权限的进程。此外，只有超级用户才能增加　　　　                                msg_qbytes的值。
 
@@ -2058,7 +2127,8 @@ c.IPC_RMID         从系统中删除该消息队列以及仍在该对列中的�
 
 8.int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)
 
-调用该函数将数据放到消息队列中。声明在sys/msg.h文件中。每个消息都有三部分组成，它们是：正长整型类型字段，非负长度（msgsz）以及实际数据字节（对应于长度）。
+调用该函数将数据放到消息队列中。声明在sys/msg.h文件中。
+每个消息都有三部分组成，它们是：正长整型类型字段，非负长度（msgsz）以及实际数据字节（对应于长度）。
 消息总是放在队列尾端。msgp参数指向一个长整型数，它包含了症的整型消息类型，紧跟其后的是消息数据。
 （若msgsz是0，则无消息数据）若发送的最长消息是512字节，则可定义下列结构：
 
@@ -2070,23 +2140,28 @@ struct mymesg {
 
 };
 
-然后，ptr就是一个指向该结构的指针。接收者可以使用消息类型以非先进先出的次序取消息。参数msgflg的值可以指定为IPC_NOWAIT，这类似于文件I/O的非阻塞标志。
-若消息队列已满（或者是队列中的消息总数等于系统限制值，或对列中的字节总数等于系统限制值），则指定IPC_NOWAIT的话，msgsnd立即出错并返回EAGAIN；
-没有指定IPC_NOWAIT的话，进程将阻塞到下述情况出现为止：有空间可以容纳要发送的消息；从系统中删除了此队列，或捕捉到一个信号，并从信号处理程序返回。
+然后，ptr就是一个指向该结构的指针。接收者可以使用消息类型以非先进先出的次序取消息。
+参数msgflg的值可以指定为IPC_NOWAIT，这类似于文件I/O的非阻塞标志。
+若消息队列已满（或者是队列中的消息总数等于系统限制值，或对列中的字节总数等于系统限制值），
+则指定IPC_NOWAIT的话，msgsnd立即出错并返回EAGAIN；
+没有指定IPC_NOWAIT的话，进程将阻塞到下述情况出现为止：有空间可以容纳要发送的消息；
+从系统中删除了此队列，或捕捉到一个信号，并从信号处理程序返回。
 第二种情况下，返回EIDRM（“标识符被删除”）。第三种情况则返回EINTR。
 
 需要注意的是，对删除消息队列的处理不是很完善，因为对每个消息队列并没有设置一个引用计数器（对打开文件则有这种计数器），
 所以删除一个队列会造成仍在使用这一队列的进程在下次对队列进行操作时出错返回。
 信号量机制也是如此。而文件删除就比较完善，当使用某个文件的最后一个进程关闭了它的文件描述符后，才能删除文件内容。
 
-当msgsnd成功返回后，与消息队列相关的struct msqid_ds结构将得到更新，以标明发出该消息的进程ID（msg_lspid），进行该调用的时间（msg_stime），
+当msgsnd成功返回后，与消息队列相关的struct msqid_ds结构将得到更新，
+以标明发出该消息的进程ID（msg_lspid），进行该调用的时间（msg_stime），
 并指示队列中增加了一条消息（msg_qnum增加1）。
 
 9.ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg)
 
 该函数从队列中取出消息。声明在sys/msg.h文件中。该函数的msqid参数和msgp参数和9中的函数类似。msgsz参数表示要接收的长度。
 如果返回的消息长度大于msgsz，并且msgflg中设置了MSG_NOERROR，则接收到的消息会被截短。
-（这种情况下，不会通知我们消息被截短了，消息截去的那一部分被丢弃）如果没有设置MSG_NOERROR标志，而消息有太长，则函数出错返回E2BIG（消息仍留在队列中）。
+（这种情况下，不会通知我们消息被截短了，消息截去的那一部分被丢弃）如果没有设置MSG_NOERROR标志，
+而消息有太长，则函数出错返回E2BIG（消息仍留在队列中）。
 type参数用于指定想要取哪一种消息：
 
 type == 0     返回队列中的第一个消息
@@ -2096,16 +2171,20 @@ type > 0       返回队列中消息类型为type的第一个消息
 type < 0       返回队列中消息类型值小于或等于|type|的消息，如果这种消息有若干个，则取类型值最小的消息。
 
 type值非0用于以非先进先出次序读消息。例如，若应用程序对消息赋优先权，那么type就可以是优先权值。
-如果一个消息队列由若干个客户进程和一个服务器进程使用，那么type字段可以用来包含客户进程的进程ID（只要进程ID可以存放在长整型中）。
+如果一个消息队列由若干个客户进程和一个服务器进程使用，
+那么type字段可以用来包含客户进程的进程ID（只要进程ID可以存放在长整型中）。
 
 可以指定flag值为IPC_NOWAIT，使操作不阻塞。这使得如果没有指定类型的消息，则msgrcv函数返回-1，errno设置为ENOMSG；
 如果没有指定IPC_NOWAIT，则进程阻塞到如下情况出现才终止：有了指定类型的消息；
-从系统中删除了此队列（出错则返回-1且errno置为EIDRM）；或捕捉到一个信号并从信号处理程序返回（msgrcv函数返回-1，errno设置为EINTR）。
+从系统中删除了此队列（出错则返回-1且errno置为EIDRM）；
+或捕捉到一个信号并从信号处理程序返回（msgrcv函数返回-1，errno设置为EINTR）。
 
-msgrcv函数成功执行时，内核更新与该消息队列相关联的struct msqid_ds结构，已指示调用者的进程ID（msg_lrpid）和调用时间（msg_rtime），
+msgrcv函数成功执行时，内核更新与该消息队列相关联的struct msqid_ds结构，
+已指示调用者的进程ID（msg_lrpid）和调用时间（msg_rtime），
 并将队列中的消息数减1（msg_qnum）。
 
-注意：当初实施消息队列时，是因为其他形式IPC都是半双工管道。而现在有了全双工管道。因此，在新的应用程序中不应该再使用消息队列。
+注意：当初实施消息队列时，是因为其他形式IPC都是半双工管道。
+而现在有了全双工管道。因此，在新的应用程序中不应该再使用消息队列。
 
 10.
 
@@ -2115,7 +2194,8 @@ msgrcv函数成功执行时，内核更新与该消息队列相关联的struct m
 
 13.int shmget(key_t key, size_t size, int shmflg)
 
-该函数用来创建或者打开一个共享存储区，返回存储区标识符。声明在sys/shm.h文件中。后边对共享区操作的函数就可以使用该标识符。
+该函数用来创建或者打开一个共享存储区，返回存储区标识符。
+声明在sys/shm.h文件中。后边对共享区操作的函数就可以使用该标识符。
 该函数的创建或者打开规则和msgget函数相同。当创建一个新段时，会创建一个相关的结构体struct shmid_ds，
 并初始化下列成员：shm_perm中的各个值；shm_lpid，shm_nattch，shm_atime，shm_dtime成员都设置为0；
 shm_ctime成员设置为当前时间；shm_segsz设置为请求长度size。
@@ -2138,7 +2218,8 @@ struct shmid_ds
 
 size参数用来指定该共享存储段的长度，实现通常将其向上取为系统页长的整数倍。
 但是，如果应用指定的size值并非系统页长的整数倍，则最后一页的余下部分不可使用。
-如果正在创建一个新段，那么必须指定size值；如果正在引用一个现存段，则将size指定为0。当创建一个新段时，段内的内容初始化为0。
+如果正在创建一个新段，那么必须指定size值；如果正在引用一个现存段，则将size指定为0。
+当创建一个新段时，段内的内容初始化为0。
 
 14.int shmctl(int shmid, int cmd, struct shmid_ds *buf)
 
@@ -2146,12 +2227,13 @@ size参数用来指定该共享存储段的长度，实现通常将其向上取�
 
 IPC_STAT          取此段的shmid_ds结构，并将它存放在由buf指向的结构中。
 
-IPC_SET            按buf指向结构中的值设置与此段相关结构中的下列三个字段：shm_perm.uid，shm_perm.gid和shm_perm.mode。此命令只能由下　　　　　　　　　　　  　　　　　　
-面两种进程执行：一种是其有效用户ID等于shm_perm.cuid或shm_perm.uid，另一种是具有超级用户权限的进程。
+IPC_SET            按buf指向结构中的值设置与此段相关结构中的下列三个字段：shm_perm.uid，shm_perm.gid和shm_perm.mode。
+此命令只能由下面两种进程执行：一种是其有效用户ID等于shm_perm.cuid或shm_perm.uid，另一种是具有超级用户权限的进程。
 
-IPC_RMID          从系统中删除共享存储段，因为每个共享存储段有一个连接计数（shmid_ds结构中的shm_nattch字段），所以除非该段最后一个进程终止或与该段分离，否　　　　　　     
-则不会实际上删除该存储段。不管此段是否仍在使用，该段标识符立即被删除，所以不能再用shmat函数与该段连接。此命令只能由下　　　　　　　　　　　  　　　　　　
-面两种进程执行：一种是其有效用户ID等于shm_perm.cuid或shm_perm.uid，另一种是具有超级用户权限的进程。
+IPC_RMID          从系统中删除共享存储段，因为每个共享存储段有一个连接计数（shmid_ds结构中的shm_nattch字段），
+所以除非该段最后一个进程终止或与该段分离，否则不会实际上删除该存储段。不管此段是否仍在使用，该段标识符立即被删除，
+所以不能再用shmat函数与该段连接。此命令只能由下面两种进程执行：一种是其有效用户ID等于shm_perm.cuid或shm_perm.uid，
+另一种是具有超级用户权限的进程。
 
 IPC_LOCK         将共享存储段锁定在内存中，此命令只能由超级用户执行。
 
@@ -2169,16 +2251,19 @@ b.如果shmaddr非0，并且没有指定SHM_RND，则此段连接到shmaddr所�
 c.如果shmaddr非0，并且指定了SHM_RND，则此段连接到shmaddr mod ulus SHMLBA所表示的地址上。
 
 如果在shmflag中指定了SHM_RDONLY位，则以只读方式连接此段，否则以读写方式连接此段。
-shmat函数的返回值是该段所连接的实际地址，如果函数出错返回-1。如果执行成功那么内核将使该共享存储段shmid_ds结构中的shm_nattch计数器值加1。
+shmat函数的返回值是该段所连接的实际地址，如果函数出错返回-1。
+如果执行成功那么内核将使该共享存储段shmid_ds结构中的shm_nattch计数器值加1。
 
 16.int shmdt(const void *shmaddr)
 
-当今成使用完存储共享区后，调用该函数是共享区与进程分离。声明在sys/shm.h文件中。该操作并不从系统中删除共享区标识符及其数据结构。
+当今成使用完存储共享区后，调用该函数是共享区与进程分离。声明在sys/shm.h文件中。
+该操作并不从系统中删除共享区标识符及其数据结构。
 该标志符让然存在，直至某个进程调用shmctl（带命令IPC_RMID）删除它。
 shmaddr参数是共享区在进程中的起始地址。如果函数执行成功，shmid_ds结构中的shm_nattch计数器值减1。
 
 小结：掌握管道和FIFO，因为在大量应用程序中仍可有效地使用这两种基本技术。
-在新的应用程序中，尽量避免使用消息队列以及信号量，而用全双工管道和记录锁取代。共享存储段有其应用场合，而mmap函数也能提供同样的功能。
+在新的应用程序中，尽量避免使用消息队列以及信号量，而用全双工管道和记录锁取代。
+共享存储段有其应用场合，而mmap函数也能提供同样的功能。
 
 第16章 网络IPC：套接字
 
@@ -2212,10 +2297,12 @@ socket函数创建的套接字描述符可用普通文件操作函数来操作�
 
 2.int shutdown(int sockfd, int how)
 
-该函数用来关闭套接字的输入/输出端口。声明在sys/socket.h文件中。如果参数how是SHUT_RD（关闭读端），那么无法从套接字读取数据（但仍可以读）；
+该函数用来关闭套接字的输入/输出端口。声明在sys/socket.h文件中。
+如果参数how是SHUT_RD（关闭读端），那么无法从套接字读取数据（但仍可以读）；
 如果参数how是SHUT_WR（关闭写端），那么无法使用套接字发送数据（但仍可以写）；
 使用SHUT_RDWR则将无法同时读取和发送数据。需要注意的是，
-close函数虽然可以关闭套接字，但是如果使用dup2复制了套接字描述符，那么直到最后一个套接字描述符被关闭后，套接字才会被释放；
+close函数虽然可以关闭套接字，但是如果使用dup2复制了套接字描述符，
+那么直到最后一个套接字描述符被关闭后，套接字才会被释放；
 而shutdown函数是一个套接字处于不活动状态，无论它的描述符有多少。
 
 3.uint32_t htonl(uint32_t hostlong)
@@ -2237,7 +2324,8 @@ Linux对该通用地址结构的实现如下（/usr/include/i386/bits/socket.h�
 
 struct sockaddr
   {
-    __SOCKADDR_COMMON (sa_);    /* Common data: address family and length.  */   /* #define __SOCKADDR_COMMON(sa_)  \ sa_family_t sa_prefix##family */
+    __SOCKADDR_COMMON (sa_);    /* Common data: address family and length.  */ i
+                                /* #define __SOCKADDR_COMMON(sa_)  \ sa_family_t sa_prefix##family */
     char sa_data[14];        /* Address data.  */
   };
 
@@ -2316,7 +2404,8 @@ struct in6_addr
 
 调用这些函数可以获取计算机的主机信息。均声明在netdb.h文件中。
 第一个函数会打开数据库文件（如果该文件没有打开），如果文件是打开的，则该函数返回文件的下一条目；
-第二个函数也可以打开数据库文件，如果文件是打开的，则将其回绕。第三个函数关闭数据库文件。第一个函数返回的struct hostent结构如下：
+第二个函数也可以打开数据库文件，如果文件是打开的，则将其回绕。
+第三个函数关闭数据库文件。第一个函数返回的struct hostent结构如下：
 
 struct hostent {
                char  *h_name;            /* official name of host */
@@ -2402,12 +2491,15 @@ struct addrinfo {
 
 hints参数是一个过滤地址的模板，用来选择特定的地址。它仅使用ai_family，ai_flags，ai_protocol和ai_socktype字段。
 剩余的整数字段必须为0，指针字段必须为空。ai_flags的使用的标志参考《apue》。
-如果该函数失败，不能使用perror或strerror函数来生成错误信息，而要使用第二个的函数。第二个函数用来释放这些链表节点。
+如果该函数失败，不能使用perror或strerror函数来生成错误信息，
+而要使用第二个的函数。第二个函数用来释放这些链表节点。
 
 11.int getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, size_t hostlen, char *serv, size_t servlen, int flags)
 
-该函数将套接字地址转换成主机名或服务器名。声明在netdb.h文件中。如果host非空，它指向一个长度为hostlen字节的缓冲区用于存储返回的主机名；
-如果serv非空，它指向一个长度为servlen字节的缓冲区用于存储返回的服务名。flags参数指定一些转换的控制方式，取值参考《apue》。
+该函数将套接字地址转换成主机名或服务器名。声明在netdb.h文件中。
+如果host非空，它指向一个长度为hostlen字节的缓冲区用于存储返回的主机名；
+如果serv非空，它指向一个长度为servlen字节的缓冲区用于存储返回的服务名。
+flags参数指定一些转换的控制方式，取值参考《apue》。
 
 12. int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
 
@@ -2419,14 +2511,17 @@ b.地址必须和创建套接字时的地址族所支持的格式相匹配。
 
 c.端口号必须不小于1024，除非该进程具有超级用户特权。
 
-对于因特网域（AF_INET/AF_INET6），如果指定IP地址为INADDR_ANY，套接字端点可以被绑定到系统的所有网络接口上，这意味着可以收到这个系统所安装的所有网卡的数据。
+对于因特网域（AF_INET/AF_INET6），如果指定IP地址为INADDR_ANY，
+套接字端点可以被绑定到系统的所有网络接口上，这意味着可以收到这个系统所安装的所有网卡的数据。
 一般情况下，与客户端套接字关联的地址没有太大意义，可以让系统选择一个默认地址；
-服务器端需要绑定地址一个众所周知的地址，使得客户端可以进行连接。另外，如果没有使用bind绑定地址，那么当调用connect或listen时，系统会自动将一个地址绑定到套接字上。
+服务器端需要绑定地址一个众所周知的地址，使得客户端可以进行连接。
+另外，如果没有使用bind绑定地址，那么当调用connect或listen时，系统会自动将一个地址绑定到套接字上。
 
 13.int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 
 调用该函数来获得绑定到套接字上的一个地址。声明在sys/socket.h文件中。调用该函数时，addrlen参数指定了addr缓冲区的大小；
-函数返回时，该参数被设置成缓冲区实际被使用的大小。如果提供的缓冲区和地址的实际大小不匹配，则将其截断而不报错。如果套接字当前没有绑定地址，函数结果没有意义。
+函数返回时，该参数被设置成缓冲区实际被使用的大小。如果提供的缓冲区和地址的实际大小不匹配，
+则将其截断而不报错。如果套接字当前没有绑定地址，函数结果没有意义。
 
 14.int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 
@@ -2435,9 +2530,11 @@ c.端口号必须不小于1024，除非该进程具有超级用户特权。
 15.int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
 
 该函数在sockfd套接字和addr指定的服务器之间建立一个连接。声明在sys/socket.h文件中。
-使用该函数建立连接时，可能会失败，因此应用程序必须能够处理该函数返回的错误，这些错误可能由一些瞬时变化条件引起（这在一些负载很重的服务器上很可能发生）。
+使用该函数建立连接时，可能会失败，因此应用程序必须能够处理该函数返回的错误，
+这些错误可能由一些瞬时变化条件引起（这在一些负载很重的服务器上很可能发生）。
 关于函数返回的错误值类型和原因，参考man手册。
-另外，对于UDP套接字调用该函数的话，所有发送报文的目标地址被设置为该函数中指定的地址，这样每次传送报文的时候就不许要再提供地址，此外，也仅能接收来自指定地址的报文。
+另外，对于UDP套接字调用该函数的话，所有发送报文的目标地址被设置为该函数中指定的地址，
+这样每次传送报文的时候就不许要再提供地址，此外，也仅能接收来自指定地址的报文。
 
 16.int listen(int sockfd, int backlog)
 
@@ -2450,7 +2547,8 @@ backlog参数指定了该套接字能连接的最大数量。一旦超过了最�
 该函数返回一个套接字描述符，该套接字连接到了客户端。返回的套接字和原始套接字sockfd具有相同的套接字类型和地址族。
 而原始套接字sockfd并没有关联到客户端的套接字，而是继续保持可用状态并接受其他连接请求。
 如果不关心客户端的地址，则可将addr参数和addrlen置为null。
-否则，addr设为足够大的缓冲区来存放客户端的地址信息，len指定了该缓冲区的大小。返回时，函数会在缓冲区填充客户端地址信息并更新len的大小。
+否则，addr设为足够大的缓冲区来存放客户端的地址信息，len指定了该缓冲区的大小。
+返回时，函数会在缓冲区填充客户端地址信息并更新len的大小。
 
 如果没有连接请求，accept函数会阻塞到直到一个请求到来。
 如果sockfd设置为非阻塞模式，accept函数会返回-1并将errno设置为EAGAIN或EWOULDBLOCK。
@@ -2462,7 +2560,8 @@ backlog参数指定了该套接字能连接的最大数量。一旦超过了最�
 
      ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags)
 
-这三个函数用来发送数据。声明在sys/socket.h文件中。第一个函数的用法和write类似，用于TCP套接字发送数据（UDP套接字不能使用它来发送），flags标志取值如下：
+这三个函数用来发送数据。声明在sys/socket.h文件中。
+第一个函数的用法和write类似，用于TCP套接字发送数据（UDP套接字不能使用它来发送），flags标志取值如下：
 
 MSG_DONTROUTE        勿将数据路由出本地网络
 
@@ -2474,7 +2573,8 @@ MSG_OOB                       如果协议支持，发送带外数据
 
 如果send成功返回，并不代表连接的另一端接收到了数据，所保证的仅是当send成功返回时，数据已经无错误的发送到网络上。
 
-UDP套接字可以使用第二个函数来发送数据，dest_addr参数指定了目标地址。TCP套接字如果使用第二个函数来发送数据的话，会忽略目标地址。
+UDP套接字可以使用第二个函数来发送数据，dest_addr参数指定了目标地址。
+TCP套接字如果使用第二个函数来发送数据的话，会忽略目标地址。
 
 第三个函数用来发送由struct msghdr结构体指定的多重缓冲区的数据，该函数和writev函数类似。struct msghdr结构体如下：
 
@@ -2506,14 +2606,18 @@ MSG_WAITALL         等待直到接收完len指定的数据长度（仅SOCK_STRE
 
 当指定为MSG_PEEK标志时，可以查看下一个要读的数据但不会真正取走，当再次调用read或recv函数时会返回刚才查看到的数据。
 
-对于SOCK_STREAM套接字（TCP套接字），默认情况下接收到数据可以比请求的少，但是如果设置了MSG_WAITALL标志，则直到接收完len指定的数据长度，recv函数才返回。
-对于SOCK_DRAM和SOCK_SEQPACKET套接字（它们是基于报文而不是字节流的），MSG_WAITALL标志没有改变什么行为，因为这些套接字本身就是一次取走整个报文。
+对于SOCK_STREAM套接字（TCP套接字），默认情况下接收到数据可以比请求的少，
+但是如果设置了MSG_WAITALL标志，则直到接收完len指定的数据长度，recv函数才返回。
+对于SOCK_DRAM和SOCK_SEQPACKET套接字（它们是基于报文而不是字节流的），
+MSG_WAITALL标志没有改变什么行为，因为这些套接字本身就是一次取走整个报文。
 如果发送者调用shudown来结束传输，或者发送端已经关闭，那么当所有数据接收完毕后，recv返回0。
 
-第二个函数可以获得发送者的套接字端点地址（src_addr和addrlen必须非空），该函数通常用于UDP套接字，也可以用于TCP套接字（这时等同于recv）。
+第二个函数可以获得发送者的套接字端点地址（src_addr和addrlen必须非空），
+该函数通常用于UDP套接字，也可以用于TCP套接字（这时等同于recv）。
 
 第三个函数将接收到的数据送入多个缓冲区（类似于readv），也可以接收辅助数据。msg参数指定了用于接收数据的缓冲区。
-可以设置参数flags来改变recvmsg的默认行为，返回时，msghdr结构中的msg_flags字段被设置为所接收数据的各种特征（进入recvmsg时的msg_flags被忽略），
+可以设置参数flags来改变recvmsg的默认行为，返回时，
+msghdr结构中的msg_flags字段被设置为所接收数据的各种特征（进入recvmsg时的msg_flags被忽略），
 这些返回的msg_flags标志如下：
 
 MSG_CTRUNC         控制数据被截断
@@ -2537,19 +2641,23 @@ b.在套接字层次管理的选项，但是依赖于下层协议的支持。
 c.特定于某协议的选项，为每个协议所独有。
 
 参数level标识了选项的层次，如果是通用层次的选项，level设置成SOL_SOCKET；否则，level设置成套接字层次的选项，
-例如，对于TCP选项，level是IPPROTO_TCP，对于IP选项，level是IPPROTO_TCP。参数optname代表通用层次和套接字层次的选项，参考《apue》。
-参数optval根据选项的不同指向一个数据结构或者一个整数。一些选项是on/off开关，当valopt整数非0，选项被启用，当optval整数为0，选项被禁止。
+例如，对于TCP选项，level是IPPROTO_TCP，对于IP选项，level是IPPROTO_TCP。
+参数optname代表通用层次和套接字层次的选项，参考《apue》。
+参数optval根据选项的不同指向一个数据结构或者一个整数。
+一些选项是on/off开关，当valopt整数非0，选项被启用，当optval整数为0，选项被禁止。
 参数optlen指定了optval指向对象的大小。
 
 21.int getsockopt(int sockfd, int level, int optname, void *optval, socklen_t *optlen)
 
-该函数用来获取套接字当前的选项。声明在sys/socket.h文件中。该函数调用时，optlen设置成optval缓冲区大小，函数返回时，optlen被更新为实际尺寸。
+该函数用来获取套接字当前的选项。声明在sys/socket.h文件中。
+该函数调用时，optlen设置成optval缓冲区大小，函数返回时，optlen被更新为实际尺寸。
 如果实际尺寸大于optlen初始设置值，选项会被截断而不报错。
 
 22.带外数据：带外数据又叫做紧急数据，TCP协议支持一个字节的带外数据，UDP不支持带外数据。
 在三个send函数中指定了标志MSG_OOB，就可以传输待外数据，传送的若干个字节中最后一个字节就是带外数据。
 此外，接收进程可以调用fcntl(sockfd，F_SETOWN，pid)函数来设置pid进程对套接字信号进行处理。
-当接收进程接收到带外数据时，pid指定的进程就会收到一个套接字信号。调用owner = fcntl(sockfd，F_GETOWN，0)可以获得处理套接字信号的进程ID。
+当接收进程接收到带外数据时，pid指定的进程就会收到一个套接字信号。
+调用owner = fcntl(sockfd，F_GETOWN，0)可以获得处理套接字信号的进程ID。
 
 23.int sockatmark(int sockfd)
 
@@ -2558,7 +2666,8 @@ TCP协议支持紧急标记（在普通数据流中紧急数据所处的位置�
 
 此外，当带外数据出现在套接字读取队列时，select函数会返回一个文件描述符并且拥有一个异常状态。
 可以在普通数据流上接受紧急数据，或者在某个recv函数中采用MSG_OOB标志在其他队列数据之前接收紧急数据。
-TCP队列仅有一字节的紧急数据，如果在接收当前的紧急数据之前又有新的紧急数据到来，那么当前的字节就成了普通字节（新的最后一个字节是紧急数据）。
+TCP队列仅有一字节的紧急数据，如果在接收当前的紧急数据之前又有新的紧急数据到来，
+那么当前的字节就成了普通字节（新的最后一个字节是紧急数据）。
 
 24.套接字非阻塞和基于套接字的异步I/O
 
@@ -2566,7 +2675,8 @@ TCP队列仅有一字节的紧急数据，如果在接收当前的紧急数据�
 在套接字非阻塞模式下，这些函数不会阻塞而是失败，设置errno为EWOULDBLOCK或者EAGAIN。
 非阻塞模式下，可以使用poll或select来判断套接字何时能接收或者传输数据。
 
-在基于套接字的异步I/O中，当能够从套接字中读取数据，或者套接字写队列中的空间变得可用时，可以安排发送信号SIGIO。通过两个步骤来使用异步I/O：
+在基于套接字的异步I/O中，当能够从套接字中读取数据，或者套接字写队列中的空间变得可用时，
+可以安排发送信号SIGIO。通过两个步骤来使用异步I/O：
 
 a.建立套接字拥有者关系，信号可以被传送到合适的进程
 
@@ -2590,7 +2700,8 @@ bb.在ioctl中使用FIOASYNC。
  
 《APUE》中的函数整理的更多相关文章
 PHP中ob系列函数整理
-ob,输出缓冲区,是output buffering的简称,而不是output cache.ob用对了,是能对速度有一定的帮助,但是盲目的加上ob函数,只会增加CPU额外的负担. 
+ob,输出缓冲区,是output buffering的简称,而不是output cache.ob用对了,
+是能对速度有一定的帮助,但是盲目的加上ob函数,只会增加CPU额外的负担. 
 下面我说说ob的基本 ...
 
 NiosII常用函数整理
